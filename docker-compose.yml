@@ -3,10 +3,6 @@ services:
     build: ./src
     cap_add:
       - NET_ADMIN
-      - SETUID
-      - SETGID
-    cap_drop:
-      - ALL
     stdin_open: true   # -i
     tty: true          # -t
     sysctls:
@@ -15,6 +11,8 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
+      - COPILOT_LOG_LEVEL=debug
+      - CHOWN_DIRS=/var/log/ralph
     volumes:
       # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
       - ./logs/mitmproxy:/var/log/mitmproxy

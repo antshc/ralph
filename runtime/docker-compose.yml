@@ -3,10 +3,6 @@ services:
     image: antshc/ralph:latest
     cap_add:
       - NET_ADMIN
-      - SETUID
-      - SETGID
-    cap_drop:
-      - ALL
     stdin_open: true   # -i
     tty: true          # -t
     sysctls:
@@ -16,6 +12,7 @@ services:
     environment:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
       - COPILOT_MODEL=${COPILOT_MODEL:-claude-sonnet-4.6}
+      - CHOWN_DIRS=/var/log/ralph
       # - HOST_DOCKER_DNAT_PORTS=${HOST_DOCKER_DNAT_PORTS}
       # GitHub CLI (gh) auth: mount ~/.config/gh (preferred) OR set GH_TOKEN.
       # - GH_TOKEN=${GH_TOKEN}
