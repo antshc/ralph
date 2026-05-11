@@ -1,0 +1,5 @@
+services:
+  ralph:
+    build: ./src
+    command:
+      - bash

@@ -1,8 +1,7 @@
 FROM antshc/cage
 
-# Install brain-tools from GitHub source
-RUN python3 -m pip install --break-system-packages \
-        git+https://github.com/antshc/brain.git
+# Install brain-tools from GitHub source (runs at build time, before proxy is up)
+RUN pipx install git+https://github.com/antshc/brain.git
 
 # Override default cage CMD; args are supplied by docker-compose command
 # The cage ENTRYPOINT (/etc/mitmproxy/entrypoint.sh) applies iptables rules

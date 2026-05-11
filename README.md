@@ -15,7 +15,6 @@ alias ralph='COPILOT_GITHUB_TOKEN="$COPILOT_GITHUB_TOKEN" WORKSPACE="$(pwd)" doc
 export REPO_DIR=/absolute/path/to/target/repo   # local git repo to review PRs in
 export GITHUB_USER=your-github-username
 export GITHUB_REPO=owner/repo                   # e.g. acme/myapp
-export GH_TOKEN=ghp_...
 
 docker compose up --build
 ```
@@ -38,5 +37,8 @@ docker compose up
 Pass extra `ralph` flags by overriding the compose `command`:
 
 ```bash
-docker compose run ralph afk_fix_prs /home/ubuntu/workspace myuser owner/repo --max-executions 10 --log-dir /tmp/logs
+WORKSPACE=/home/pet/_projects/brain \
+GITHUB_USER=antshc \
+GITHUB_REPO=antshc/brain \
+docker compose -f docker-compose.yml -f runtime/docker-compose.bash.yml run ralph
 ```

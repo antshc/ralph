@@ -1,6 +1,6 @@
 services:
   ralph:
-    build: .
+    build: ./src
     cap_add:
       - NET_ADMIN
       - SETUID
@@ -13,24 +13,26 @@ services:
       net.ipv4.conf.all.route_localnet: 1
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    environment:
+      - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
     volumes:
+      # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
       - ./logs/mitmproxy:/var/log/mitmproxy
+      # Copilot CLI session logs for debugging and audit
       - ./logs/copilot:/var/log/copilot
-      - ${WORKSPACE}:/home/ubuntu/workspace
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs/ralph:/var/log/ralph
+      # Project files — the working directory inside the container
+      - ${WORKSPACE:?WORKSPACE is required}:/home/ubuntu/workspace
+      # Host global git identity used as fallback when the repo has no local user config
       - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
+      # GitHub CLI auth tokens — required for `gh` commands inside the container
       - ~/.config/gh:/home/ubuntu/.config/gh:ro
-      # Optional: mount host git config for correct git identity inside the container:
-      # - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
-      # Optional: GitHub CLI (gh) auth — mount host gh config:
-      # - ~/.config/gh:/home/ubuntu/.config/gh:ro
+      # Run plugin installs at startup (after proxy is ready)
+      - ./src/setup.sh:/etc/sandbox/setup.sh:ro
       # Optional: expose the host Docker socket so integration tests can manage containers.
       # WARNING: This grants full Docker daemon access (equivalent to root on the host).
       # Only enable for trusted developer workloads — never in production or untrusted CI.
       # - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
-    # GH_TOKEN is picked up by the gh CLI for authentication.
     # Positional args for `ralph <repo-dir> <github-user> <owner/repo>`
     # Set GITHUB_USER and GITHUB_REPO before running.
     command:
@@ -38,3 +40,6 @@ services:
       - /home/ubuntu/workspace
       - ${GITHUB_USER:?GITHUB_USER is required}
       - ${GITHUB_REPO:?GITHUB_REPO is required}
+      - "10"
+      - --log-dir
+      - /var/log/ralph

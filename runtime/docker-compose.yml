@@ -41,6 +41,8 @@ services:
       # GitHub CLI auth tokens — required for `gh` commands inside the container
       - ~/.config/gh:/home/ubuntu/.config/gh:ro
       - ./rules:/etc/mitmproxy/user-rules:ro
+      # Run plugin installs at startup (after proxy is ready)
+      - ../src/setup.sh:/etc/sandbox/setup.sh:ro
       # Mount a folder of CA certificates (.crt/.pem) to trust private registries:
       # - ./certs:/etc/sandbox/certs:ro
       # Optional: run custom setup steps at startup (as ubuntu, after proxy is ready):
@@ -56,3 +58,6 @@ services:
       - /home/ubuntu/workspace
       - ${GITHUB_USER:?GITHUB_USER is required}
       - ${GITHUB_REPO:?GITHUB_REPO is required}
+      - "10"
+      - --log-dir
+      - /var/log/ralph
