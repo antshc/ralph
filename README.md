@@ -38,7 +38,7 @@ Pass extra `ralph` flags by overriding the compose `command`:
 
 ```bash
 WORKSPACE=/home/pet/_projects/brain GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose build --no-cache
-WORKSPACE=/home/pet/_projects/brain GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose -f docker-compose.yml -f runtime/docker-compose.bash.yml run ralph
+WORKSPACE=/home/pet/_projects/brain GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose -f docker-compose.yml -f docker-compose.bash.yml run ralph
 
 afk_fix_prs /home/ubuntu/workspace antshc antshc/brain 10 --log-dir /var/log/ralph
 
