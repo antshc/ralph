@@ -13,6 +13,8 @@ services:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
       - COPILOT_LOG_LEVEL=debug
       - CHOWN_DIRS=/var/log/ralph
+      # - AFK_DRY_RUN=0 run real copilot
+      - AFK_DEBUG=1
     volumes:
       # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
       - ./logs/mitmproxy:/var/log/mitmproxy
