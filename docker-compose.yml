@@ -1,6 +1,10 @@
 services:
   ralph:
-    build: ./src
+    build:
+      context: ./src
+      dockerfile_inline: |
+        FROM antshc/cage
+        CMD bash -c 'bash /etc/sandbox/cron.sh & sleep infinity'
     cap_add:
       - NET_ADMIN
     stdin_open: true   # -i
@@ -15,6 +19,9 @@ services:
       - CHOWN_DIRS=/var/log/ralph
       # - AFK_DRY_RUN=0 run real copilot
       - AFK_DEBUG=1
+      - AFK_REPO_DIR=/home/ubuntu/workspace
+      - AFK_GITHUB_USER=${GITHUB_USER:antshc}
+      - AFK_GITHUB_REPO=${GITHUB_REPO:antshc/brain}
     volumes:
       # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
       - ./logs/mitmproxy:/var/log/mitmproxy
@@ -30,14 +37,8 @@ services:
       - ~/.config/gh:/home/ubuntu/.config/gh:ro
       # Run plugin installs at startup (after proxy is ready)
       - ./src/setup.sh:/etc/sandbox/setup.sh:ro
+      - ./src/cron.sh:/etc/sandbox/cron.sh:ro
       # Optional: expose the host Docker socket so integration tests can manage containers.
       # WARNING: This grants full Docker daemon access (equivalent to root on the host).
       # Only enable for trusted developer workloads — never in production or untrusted CI.
       # - /var/run/docker.sock:/var/run/docker.sock
-    # Positional args for `ralph <repo-dir> <github-user> <owner/repo>`
-    # Set GITHUB_USER and GITHUB_REPO before running.
-    command:
-      - afk_fix_prs
-      - --repo_dir /home/ubuntu/workspace
-      - --github_user ${GITHUB_USER:?GITHUB_USER is required}
-      - --github_repo ${GITHUB_REPO:?GITHUB_REPO is required}

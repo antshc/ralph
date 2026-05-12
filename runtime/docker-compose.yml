@@ -1,6 +1,10 @@
 services:
   ralph:
-    image: antshc/ralph:latest
+    build:
+      context: ./
+      dockerfile_inline: |
+        FROM antshc/cage
+        CMD bash -c 'bash /etc/sandbox/cron.sh & sleep infinity'
     cap_add:
       - NET_ADMIN
     stdin_open: true   # -i
@@ -13,6 +17,8 @@ services:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
       - COPILOT_MODEL=${COPILOT_MODEL:-claude-sonnet-4.6}
       - CHOWN_DIRS=/var/log/ralph
+      # - AFK_DRY_RUN=1 # set to 0 to run real copilot
+      - AFK_DEBUG=1
       # - HOST_DOCKER_DNAT_PORTS=${HOST_DOCKER_DNAT_PORTS}
       # GitHub CLI (gh) auth: mount ~/.config/gh (preferred) OR set GH_TOKEN.
       # - GH_TOKEN=${GH_TOKEN}
@@ -31,15 +37,18 @@ services:
       - ./logs/mitmproxy:/var/log/mitmproxy
       # Copilot CLI session logs for debugging and audit
       - ./logs/copilot:/var/log/copilot
+      - ./logs/ralph:/var/log/ralph
       # Project files — the working directory inside the container
-      - ${WORKSPACE:?WORKSPACE is required}:/home/ubuntu/workspace
+      - /home/pet/_projects/brain:/home/ubuntu/workspace
+      - /home/pet/_projects/brain.worktrees:/home/ubuntu/workspace.worktrees
       # Host global git identity used as fallback when the repo has no local user config
       - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
       # GitHub CLI auth tokens — required for `gh` commands inside the container
       - ~/.config/gh:/home/ubuntu/.config/gh:ro
       - ./rules:/etc/mitmproxy/user-rules:ro
       # Run plugin installs at startup (after proxy is ready)
-      - ../src/setup.sh:/etc/sandbox/setup.sh:ro
+      - ./setup.sh:/etc/sandbox/setup.sh:ro
+      - ./cron.sh:/etc/sandbox/cron.sh:ro
       # Mount a folder of CA certificates (.crt/.pem) to trust private registries:
       # - ./certs:/etc/sandbox/certs:ro
       # Optional: run custom setup steps at startup (as ubuntu, after proxy is ready):
@@ -48,13 +57,3 @@ services:
       # WARNING: This grants full Docker daemon access (equivalent to root on the host).
       # Only enable for trusted developer workloads — never in production or untrusted CI.
       # - /var/run/docker.sock:/var/run/docker.sock
-    # Positional args for `ralph <repo-dir> <github-user> <owner/repo>`
-    # Set GITHUB_USER and GITHUB_REPO before running.
-    command:
-      - afk_fix_prs
-      - /home/ubuntu/workspace
-      - ${GITHUB_USER:?GITHUB_USER is required}
-      - ${GITHUB_REPO:?GITHUB_REPO is required}
-      - "10"
-      - --log-dir
-      - /var/log/ralph
