@@ -4,6 +4,8 @@
 # Installs Copilot plugins that require network access through the proxy.
 #
 set -euo pipefail
+pipx install git+https://github.com/antshc/brain.git
+
 copilot plugin marketplace add antshc/brain
 copilot plugin install ralph@brain
 copilot plugin install review@brain

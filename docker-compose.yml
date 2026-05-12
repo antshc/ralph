@@ -23,6 +23,7 @@ services:
       - ./logs/ralph:/var/log/ralph
       # Project files — the working directory inside the container
       - ${WORKSPACE:?WORKSPACE is required}:/home/ubuntu/workspace
+      - ${WORKTREES:?WORKTREES is required}:/home/ubuntu/workspace.worktrees
       # Host global git identity used as fallback when the repo has no local user config
       - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
       # GitHub CLI auth tokens — required for `gh` commands inside the container
@@ -37,9 +38,6 @@ services:
     # Set GITHUB_USER and GITHUB_REPO before running.
     command:
       - afk_fix_prs
-      - /home/ubuntu/workspace
-      - ${GITHUB_USER:?GITHUB_USER is required}
-      - ${GITHUB_REPO:?GITHUB_REPO is required}
-      - "10"
-      - --log-dir
-      - /var/log/ralph
+      - --repo_dir /home/ubuntu/workspace
+      - --github_user ${GITHUB_USER:?GITHUB_USER is required}
+      - --github_repo ${GITHUB_REPO:?GITHUB_REPO is required}
