@@ -7,4 +7,4 @@ FROM antshc/cage
 # Override default cage CMD; cage ENTRYPOINT applies iptables, optionally runs cron.sh,
 # then drops to the ubuntu user via gosu before executing this CMD.
 
- CMD bash -c 'bash /etc/sandbox/cron.sh & sleep infinity'
+CMD bash -c 'bash /etc/sandbox/cron.sh & sleep infinity'

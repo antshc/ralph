@@ -2,9 +2,7 @@ services:
   ralph:
     build:
       context: ./
-      dockerfile_inline: |
-        FROM antshc/cage
-        CMD bash -c 'bash /etc/sandbox/cron.sh & sleep infinity'
+      dockerfile: Dockerfile
     cap_add:
       - NET_ADMIN
     stdin_open: true   # -i

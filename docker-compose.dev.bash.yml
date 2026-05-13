@@ -1,5 +1,5 @@
 services:
   ralph:
-    build: ./src
+    build: ./runtime
     command:
       - bash

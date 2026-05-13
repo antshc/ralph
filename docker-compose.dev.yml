@@ -1,0 +1,25 @@
+services:
+  ralph:
+    build:
+      context: ./runtime
+      dockerfile: Dockerfile
+    environment:
+      - COPILOT_LOG_LEVEL=debug
+      - AFK_REPO_DIR=/home/ubuntu/workspace
+      - AFK_GITHUB_USER=${GITHUB_USER:-antshc}
+      - AFK_GITHUB_REPO=${GITHUB_REPO:-antshc/brain}
+    volumes:
+      # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
+      - ./logs/mitmproxy:/var/log/mitmproxy
+      # Copilot CLI session logs for debugging and audit
+      - ./logs/copilot:/var/log/copilot
+      - ./logs/ralph:/var/log/ralph
+      # Project files — the working directory inside the container
+      - ${WORKSPACE:?WORKSPACE is required}:/home/ubuntu/workspace
+      - ${WORKTREES:?WORKTREES is required}:/home/ubuntu/workspace.worktrees
+      # Host global git identity used as fallback when the repo has no local user config
+      - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
+      # GitHub CLI auth tokens — required for `gh` commands inside the container
+      - ~/.config/gh:/home/ubuntu/.config/gh:ro
+      - ./runtime/setup.sh:/etc/sandbox/setup.sh:ro
+      - ./runtime/cron.sh:/etc/sandbox/cron.sh:ro
