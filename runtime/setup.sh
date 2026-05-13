@@ -31,11 +31,11 @@ set -euo pipefail
 # Example: Install skill
 # gh skill install github/awesome-copilot git-commit
 
-pipx install git+https://github.com/antshc/brain.git
+pipx install git+https://github.com/antshc/brain.git && echo "brain installed" || true
 
-copilot plugin marketplace add antshc/brain
-copilot plugin install ralph@brain
-copilot plugin install review@brain
-copilot plugin install wf@brain
+copilot plugin marketplace add antshc/brain && echo "marketplace antshc/brain added" || true
+copilot plugin install ralph@brain && echo "plugin ralph@brain installed" || true
+copilot plugin install review@brain && echo "plugin review@brain installed" || true
+copilot plugin install wf@brain && echo "plugin wf@brain installed" || true
 
 echo "setup.sh: custom setup complete"
