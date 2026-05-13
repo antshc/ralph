@@ -7,10 +7,22 @@ Runs automated PR review via `afk.fix_prs:main` (from [brain-tools](https://gith
 - Docker + Docker Compose
 - A GitHub token with repo + PR read/write access
 
+## Installation
+
+Download and extract the latest runtime files:
+
+```bash
+read -p "Installation directory [.ralph]: " INSTALL_DIR; INSTALL_DIR="${INSTALL_DIR:-.ralph}"
+mkdir -p ~/$INSTALL_DIR
+curl -L https://github.com/antshc/ralph/releases/latest/download/ralph.tar.gz | tar -xz -C ~/$INSTALL_DIR
+```
+
+This installs: `Dockerfile`, `docker-compose.yml`, `cron.sh`, `setup.sh`, and `rules/`.
+
 ## Usage
 
 ```bash
-alias ralph='COPILOT_GITHUB_TOKEN="$COPILOT_GITHUB_TOKEN" WORKSPACE="$(pwd)" docker compose -f ~/.ralph-zvm/docker-compose.yml run --rm --service-ports sandbox'
+alias ralph='COPILOT_GITHUB_TOKEN="$COPILOT_GITHUB_TOKEN" WORKSPACE="$(pwd)" docker compose -f ~/"$INSTALL_DIR"/docker-compose.yml run --rm --service-ports sandbox'
 
 export REPO_DIR=/absolute/path/to/target/repo   # local git repo to review PRs in
 export GITHUB_USER=your-github-username
@@ -23,26 +35,4 @@ On subsequent runs (image already built):
 
 ```bash
 docker compose up
-```
-
-## Optional overrides
-
-| Variable | Default | Description |
-|---|---|---|
-| `REPO_DIR` | — | **Required.** Absolute host path to the git repo |
-| `GITHUB_USER` | — | **Required.** GitHub username for the review agent |
-| `GITHUB_REPO` | — | **Required.** `owner/repo` to review PRs in |
-| `GH_TOKEN` | — | GitHub token; passed to `gh` CLI for auth |
-
-Pass extra `ralph` flags by overriding the compose `command`:
-
-```bash
-WORKSPACE=/home/pet/_projects/brain WORKTREES=/home/pet/_projects/brain.worktrees GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose build --no-cache
-WORKSPACE=/home/pet/_projects/brain WORKTREES=/home/pet/_projects/brain.worktrees GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose -f docker-compose.yml -f docker-compose.bash.yml run ralph
-
-WORKSPACE=/home/pet/_projects/brain WORKTREES=/home/pet/_projects/brain.worktrees GITHUB_USER=antshc GITHUB_REPO=antshc/brain docker compose -f docker-compose.yml run ralph
-
-export AFK_DRY_RUN=0 && export AFK_DEBUG=1
-afk_fix_prs --repo_dir /home/ubuntu/workspace --github_user antshc --github_repo antshc/brain
-
 ```
