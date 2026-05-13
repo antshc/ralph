@@ -1,8 +1,6 @@
 services:
   ralph:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: antshc/ralph
     cap_add:
       - NET_ADMIN
     stdin_open: true   # -i
