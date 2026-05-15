@@ -7,5 +7,5 @@ while true; do
     --repo_dir "/home/ubuntu/workspace" \
     --github_user "$AFK_GITHUB_USER" \
     --github_repo "$AFK_GITHUB_REPO"
-  sleep 60
+  sleep 10
 done
