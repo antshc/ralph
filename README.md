@@ -12,9 +12,7 @@ Runs automated PR review via `afk.fix_prs:main` (from [brain-tools](https://gith
 Download and extract the latest runtime files:
 
 ```bash
-read -p "Installation directory [.ralph]: " INSTALL_DIR; INSTALL_DIR="${INSTALL_DIR:-.ralph}" && \
-mkdir -p ~/$INSTALL_DIR && \
-curl -L https://github.com/antshc/ralph/releases/latest/download/ralph.tar.gz | tar -xz -C ~/$INSTALL_DIR
+curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/install.sh | bash
 ```
 
 This installs: `Dockerfile`, `docker-compose.yml`, `cron.sh`, `setup.sh`, and `rules/`.
@@ -35,4 +33,12 @@ On subsequent runs (image already built):
 
 ```bash
 docker compose up
+```
+
+## Auto-start on WSL
+
+If systemd is enabled in WSL, you can register Ralph as a service so it starts automatically when WSL starts:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/enable-wsl-autostart.sh | bash
 ```
