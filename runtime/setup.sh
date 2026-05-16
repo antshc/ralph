@@ -53,13 +53,15 @@ run_or_skip "install brain-tools" "already seems to be installed" \
 run_or_skip "add marketplace 'brain'" "already registered" \
     copilot plugin marketplace add antshc/brain
 
-run_or_skip "install plugin ralph@brain" "already installed|already exists" \
-    copilot plugin install ralph@brain
+plugins=(
+    ralph@brain
+    review@brain
+    wf@brain
+)
 
-run_or_skip "install plugin review@brain" "already installed|already exists" \
-    copilot plugin install review@brain
-
-run_or_skip "install plugin wf@brain" "already installed|already exists" \
-    copilot plugin install wf@brain
+for plugin in "${plugins[@]}"; do
+    (copilot plugin uninstall "$plugin" >/dev/null 2>&1 || true) && \
+        copilot plugin install "$plugin"
+done
 
 echo "setup.sh: custom setup complete"
