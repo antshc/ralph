@@ -12,7 +12,6 @@ services:
     environment:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
       - COPILOT_MODEL=${COPILOT_MODEL:-claude-sonnet-4.6}
-      - CHOWN_DIRS=/var/log/ralph
       # - AFK_DRY_RUN=1 # set to 0 to run real copilot
       - AFK_DEBUG=1
       # - AFK_GITHUB_USER=antshc         # required
@@ -37,8 +36,8 @@ services:
       - ./logs/copilot:/var/log/copilot
       - ./logs/ralph:/var/log/ralph
       # Project files — the working directory inside the container
-      - /home/pet/_projects/brain:/home/ubuntu/workspace
-      - /home/pet/_projects/brain.worktrees:/home/ubuntu/workspace.worktrees
+      - ~/_projects/brain:/home/ubuntu/workspace
+      - ~/_projects/brain.worktrees:/home/ubuntu/workspace.worktrees
       # Host global git identity used as fallback when the repo has no local user config
       - ~/.gitconfig:/home/ubuntu/.gitconfig:ro
       # GitHub CLI auth tokens — required for `gh` commands inside the container
