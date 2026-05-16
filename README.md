@@ -12,8 +12,8 @@ Runs automated PR review via `afk.fix_prs:main` (from [brain-tools](https://gith
 Download and extract the latest runtime files:
 
 ```bash
-read -p "Installation directory [.ralph]: " INSTALL_DIR; INSTALL_DIR="${INSTALL_DIR:-.ralph}"
-mkdir -p ~/$INSTALL_DIR
+read -p "Installation directory [.ralph]: " INSTALL_DIR; INSTALL_DIR="${INSTALL_DIR:-.ralph}" && \
+mkdir -p ~/$INSTALL_DIR && \
 curl -L https://github.com/antshc/ralph/releases/latest/download/ralph.tar.gz | tar -xz -C ~/$INSTALL_DIR
 ```
 
