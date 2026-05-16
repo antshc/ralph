@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-read -p "Full docker compose file path [$HOME/.ralph/docker-compose.yml]: " COMPOSE_FILE
-COMPOSE_FILE="${COMPOSE_FILE:-$HOME/.ralph/docker-compose.yml}"
+# Accept compose file path as first argument, or prompt if not provided
+if [[ $# -ge 1 && -n "$1" ]]; then
+	COMPOSE_FILE="$1"
+else
+	read -p "Full docker compose file path [$HOME/.ralph/docker-compose.yml]: " COMPOSE_FILE
+	COMPOSE_FILE="${COMPOSE_FILE:-$HOME/.ralph/docker-compose.yml}"
+fi
 
 if [[ ! -f "$COMPOSE_FILE" ]]; then
 	echo "Error: docker compose file not found: $COMPOSE_FILE" >&2
