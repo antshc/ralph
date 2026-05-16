@@ -5,7 +5,12 @@ ALLOWED_REPOS = [
 ]
 
 # api.github.com paths are prefixed with /repos/<org>/<repo>/...
-_API_PREFIXES = ["/repos" + r for r in ALLOWED_REPOS]
+_API_PREFIXES = ["/repos" + r for r in ALLOWED_REPOS] + ["/user", "/graphql"]
+
+_ALLOWED_GITHUB_PATHS = [
+    "/login",
+    "/session",
+]
 
 _FILTERED_HOSTS = {"github.com", "api.github.com"}
 
@@ -26,7 +31,10 @@ def check_request(flow: http.HTTPFlow) -> None:
         # objects/raw/release-assets hosts: no path restriction
         return
     path = flow.request.path
-    prefixes = _API_PREFIXES if host == "api.github.com" else ALLOWED_REPOS
+    if host == "api.github.com":
+        prefixes = _API_PREFIXES
+    else:
+        prefixes = ALLOWED_REPOS + _ALLOWED_GITHUB_PATHS
     if not any(path.startswith(p) for p in prefixes):
         body = (
             "[Sandbox Firewall] Access to '{}{}' is blocked.\n"
