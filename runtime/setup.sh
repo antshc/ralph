@@ -47,9 +47,6 @@ run_or_skip() {
     fi
 }
 
-run_or_skip "install brain-tools" "already seems to be installed" \
-    pipx install git+https://github.com/antshc/brain.git
-
 run_or_skip "add marketplace 'brain'" "already registered" \
     copilot plugin marketplace add antshc/brain
 
