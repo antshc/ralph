@@ -1,12 +1,7 @@
 from mitmproxy import http
 
 ALLOWED_REPOS = [
-    "/hpe-cds/zerto-zic",
-    "/hpe-cds/zerto-zvm",
-    "/hpe-cds/zerto-promotion-workers",
-    "/anton-shcherbyna_hpeprod/zic-board",
-    "/anton-shcherbyna_hpeprod/zvm-board",
-    "/anton-shcherbyna_hpeprod/promotion-workers-board",
+    "/antshc/brain",
 ]
 
 # api.github.com paths are prefixed with /repos/<org>/<repo>/...
