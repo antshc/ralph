@@ -16,10 +16,11 @@ if [[ ! -f "$COMPOSE_FILE" ]]; then
 fi
 
 COMPOSE_DIR="$(dirname "$COMPOSE_FILE")"
+SERVICE_NAME="$(basename "$COMPOSE_DIR")"
 
-sudo tee /etc/systemd/system/ralph.service >/dev/null <<EOF
+sudo tee /etc/systemd/system/${SERVICE_NAME}.service >/dev/null <<EOF
 [Unit]
-Description=Ralph Docker Compose Service
+Description=${SERVICE_NAME} Docker Compose Service
 After=docker.service
 Requires=docker.service
 
@@ -27,14 +28,14 @@ Requires=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=$COMPOSE_DIR
-ExecStart=/usr/bin/docker compose -f $COMPOSE_FILE up -d
-ExecStop=/usr/bin/docker compose -f $COMPOSE_FILE down
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable --now ralph.service
+sudo systemctl enable --now ${SERVICE_NAME}.service
 
-echo "Enabled service: ralph.service (compose file: $COMPOSE_FILE)"
+echo "Enabled service: ${SERVICE_NAME}.service (compose file: $COMPOSE_FILE)"

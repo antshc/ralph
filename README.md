@@ -37,8 +37,13 @@ docker compose up
 
 ## Auto-start on WSL
 
+
 If systemd is enabled in WSL, you can register Ralph as a service so it starts automatically when WSL starts:
 
 ```bash
+# Specify the path to your docker-compose.yml (recommended):
+curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/enable-wsl-autostart.sh | bash /path/to/docker-compose.yml
+
+# Or, run without an argument to be prompted (defaults to ~/.ralph/docker-compose.yml):
 curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/enable-wsl-autostart.sh | bash
 ```
