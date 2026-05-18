@@ -6,7 +6,7 @@ set -euo pipefail
 if [[ $# -ge 1 && -n "$1" ]]; then
 	COMPOSE_FILE="$1"
 else
-	read -p "Full docker compose file path [$HOME/.ralph/docker-compose.yml]: " COMPOSE_FILE
+	read -p "Full docker compose file path [$HOME/.ralph/docker-compose.yml]: " COMPOSE_FILE </dev/tty
 	COMPOSE_FILE="${COMPOSE_FILE:-$HOME/.ralph/docker-compose.yml}"
 fi
 

@@ -16,7 +16,7 @@ for i in "${!SERVICES[@]}"; do
 done
 
 echo ""
-read -p "Enter service name to remove: " SERVICE_NAME
+read -p "Enter service name to remove: " SERVICE_NAME </dev/tty
 
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}"
 # Append .service if not already present

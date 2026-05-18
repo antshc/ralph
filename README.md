@@ -47,12 +47,10 @@ curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/enable-wsl-autost
 curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/enable-wsl-autostart.sh | bash
 ```
 
-To disable and remove the service:
+To disable and remove a service:
 
 ```bash
-# Specify the path to your docker-compose.yml (recommended):
-curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/disable-wsl-autostart.sh | bash -s /path/to/docker-compose.yml
-
-# Or, run without an argument to be prompted (defaults to ~/.ralph/docker-compose.yml):
 curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/disable-wsl-autostart.sh | bash
 ```
+
+This lists all registered ralph services with their status and prompts you to enter the one to remove.
