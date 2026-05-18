@@ -2,35 +2,33 @@
 
 set -euo pipefail
 
-# Accept compose file path as first argument, or prompt if not provided
-if [[ $# -ge 1 && -n "$1" ]]; then
-	COMPOSE_FILE="$1"
-else
-	read -p "Full docker compose file path [$HOME/.ralph/docker-compose.yml]: " COMPOSE_FILE
-	COMPOSE_FILE="${COMPOSE_FILE:-$HOME/.ralph/docker-compose.yml}"
+echo "Available ralph services:"
+mapfile -t SERVICES < <(systemctl list-units --type=service --all --no-legend | awk '{print $1}' | grep '^ralph-')
+
+if [[ ${#SERVICES[@]} -eq 0 ]]; then
+	echo "No ralph services found." >&2
+	exit 1
 fi
 
-COMPOSE_DIR="$(dirname "$COMPOSE_FILE")"
-SERVICE_NAME="$(basename "$COMPOSE_DIR")"
+for i in "${!SERVICES[@]}"; do
+	STATUS=$(systemctl is-active "${SERVICES[$i]}" 2>/dev/null || true)
+	echo "  $((i+1))) ${SERVICES[$i]} [$STATUS]"
+done
 
-# Strip leading dot from service name if present
-SERVICE_NAME="${SERVICE_NAME#.}"
+echo ""
+read -p "Enter service name to remove: " SERVICE_NAME
 
-# Prefix with "ralph-" if the compose dir is not under a .ralph* parent directory
-PARENT_DIR="$(basename "$(dirname "$COMPOSE_DIR")")"
-if [[ "$PARENT_DIR" != .ralph* ]]; then
-	SERVICE_NAME="ralph-${SERVICE_NAME}"
-fi
-
-SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
+SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}"
+# Append .service if not already present
+[[ "$SERVICE_NAME" != *.service ]] && SERVICE_FILE="${SERVICE_FILE}.service" && SERVICE_NAME="${SERVICE_NAME}.service"
 
 if [[ ! -f "$SERVICE_FILE" ]]; then
 	echo "Error: service file not found: $SERVICE_FILE" >&2
 	exit 1
 fi
 
-sudo systemctl disable --now ${SERVICE_NAME}.service
+sudo systemctl disable --now "$SERVICE_NAME"
 sudo rm "$SERVICE_FILE"
 sudo systemctl daemon-reload
 
-echo "Disabled and removed service: ${SERVICE_NAME}.service"
+echo "Disabled and removed service: ${SERVICE_NAME}"
