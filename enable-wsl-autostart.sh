@@ -18,6 +18,12 @@ fi
 COMPOSE_DIR="$(dirname "$COMPOSE_FILE")"
 SERVICE_NAME="$(basename "$COMPOSE_DIR")"
 
+# Prefix with "ralph-" if the compose dir is not under a .ralph* parent directory
+PARENT_DIR="$(basename "$(dirname "$COMPOSE_DIR")")"
+if [[ "$PARENT_DIR" != .ralph* ]]; then
+	SERVICE_NAME="ralph-${SERVICE_NAME}"
+fi
+
 sudo tee /etc/systemd/system/${SERVICE_NAME}.service >/dev/null <<EOF
 [Unit]
 Description=${SERVICE_NAME} Docker Compose Service
