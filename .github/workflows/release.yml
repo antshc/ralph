@@ -3,6 +3,12 @@ name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      update_base:
+        description: Pull latest antshc/cage base image
+        type: boolean
+        default: true
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -62,5 +68,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          pull: ${{ github.event_name == 'workflow_dispatch' && inputs.update_base }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
