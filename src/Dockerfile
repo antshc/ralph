@@ -9,7 +9,9 @@ RUN pipx install git+https://github.com/antshc/brain.git
 
 # # Install the ralph Copilot plugin at build time.
 RUN copilot plugin marketplace add antshc/brain \
-     && copilot plugin install ralph@brain
+     && copilot plugin install ralph@brain \
+     && copilot plugin install review@brain \
+     && copilot plugin install wf@brain
 USER root
 
 # Override default cage CMD; cage ENTRYPOINT applies iptables, optionally runs cron.sh,
