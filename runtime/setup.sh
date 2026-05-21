@@ -35,5 +35,6 @@ set -euo pipefail
 copilot plugin install ralph@brain
 copilot plugin install review@brain
 copilot plugin install wf@brain
+copilot plugin install petproj@brain
 
 echo "setup.sh: plugins installed"
