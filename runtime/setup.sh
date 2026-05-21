@@ -32,9 +32,9 @@ set -euo pipefail
 
 set -euo pipefail
 
-copilot plugin install ralph@brain
-copilot plugin install review@brain
-copilot plugin install wf@brain
-copilot plugin install petproj@brain
+(copilot plugin uninstall "ralph@brain" >/dev/null 2>&1 || true) && copilot plugin install "ralph@brain"
+(copilot plugin uninstall "review@brain" >/dev/null 2>&1 || true) && copilot plugin install "review@brain"
+(copilot plugin uninstall "wf@brain" >/dev/null 2>&1 || true) && copilot plugin install "wf@brain"
+(copilot plugin uninstall "petproj@brain" >/dev/null 2>&1 || true) && copilot plugin install "petproj@brain"
 
 echo "setup.sh: plugins installed"
