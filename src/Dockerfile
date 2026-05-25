@@ -5,10 +5,12 @@ FROM antshc/cage
 # # so docker build uses direct internet access.
 
 USER ubuntu
-RUN pipx install git+https://github.com/antshc/brain.git
 
-# # Add the brain plugin marketplace at build time.
+# Add the brain plugin marketplace at build time.
 RUN copilot plugin marketplace add antshc/brain
+
+ARG CACHEBUST
+RUN pipx install git+https://github.com/antshc/brain.git
 USER root
 
 # Override default cage CMD; cage ENTRYPOINT applies iptables, optionally runs cron.sh,
