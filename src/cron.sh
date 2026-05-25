@@ -4,17 +4,17 @@ set -euo pipefail
 fix_prs_loop() {
   while true; do
     afk_fix_prs \
-      --github_user "$AFK_GITHUB_USER" \
-      --github_repo "$AFK_GITHUB_REPO"
-    sleep "${AFK_RALPH_FIX_PR_SLEEP:-10}"
+      --github_user "$AFK_FIX_PRS_GITHUB_USER" \
+      --github_repo "$AFK_FIX_PRS_GITHUB_REPO"
+    sleep "${AFK_FIX_PR_SLEEP:-10}"
   done
 }
 
 dev_loop() {
   while true; do
     afk_dev \
-      --github_repo "$AFK_GITHUB_REPO"
-    sleep "${AFK_RALPH_DEV_SLEEP:-10}"
+      --github_repo_board "$AFK_DEV_GITHUB_REPO"
+    sleep "${AFK_DEV_SLEEP:-10}"
   done
 }
 

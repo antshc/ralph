@@ -51,8 +51,8 @@ Set either env var to `1` to disable the corresponding agent loop:
 
 | Variable | Default | Description |
 |---|---|---|
-| `AFK_RALPH_FIX_PR_SLEEP` | `10` | Seconds between `afk_fix_prs` runs |
-| `AFK_RALPH_DEV_SLEEP` | `10` | Seconds between `afk_dev` runs |
+| `AFK_FIX_PR_SLEEP` | `10` | Seconds between `afk_fix_prs` runs |
+| `AFK_DEV_SLEEP` | `10` | Seconds between `afk_dev` runs |
 
 ## Auto-start on WSL
 
