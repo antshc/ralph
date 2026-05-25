@@ -14,7 +14,10 @@ services:
       - COPILOT_MODEL=${COPILOT_MODEL:-claude-sonnet-4.6}
       # - AFK_DRY_RUN=1 # set to 0 to run real copilot
       - AFK_DEBUG=1
-      - AFK_RALPH_FIX_PR_SLEEP=${AFK_RALPH_FIX_PR_SLEEP:-10}
+      # - AFK_RALPH_FIX_PR_SLEEP=${AFK_RALPH_FIX_PR_SLEEP:-10}
+      # - AFK_RALPH_DEV_SLEEP=${AFK_RALPH_DEV_SLEEP:-10}
+      # - AFK_DISABLE_FIX_PRS=1   # set to 1 to disable afk_fix_prs loop (debug)
+      # - AFK_DISABLE_DEV=1       # set to 1 to disable afk_dev loop (debug)
       # - AFK_GITHUB_USER=antshc         # required
       # - AFK_GITHUB_REPO=antshc/brain   # required
       # - HOST_DOCKER_DNAT_PORTS=${HOST_DOCKER_DNAT_PORTS}

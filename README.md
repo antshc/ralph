@@ -1,6 +1,9 @@
 # ralph
 
-Runs automated PR review via `afk.fix_prs:main` (from [brain-tools](https://github.com/antshc/brain)) inside the [cage](https://hub.docker.com/r/antshc/cage) container.
+Runs two automated agents in parallel (from [brain-tools](https://github.com/antshc/brain)) inside the [cage](https://hub.docker.com/r/antshc/cage) container:
+
+- **`afk_fix_prs`** — reviews and fixes open pull requests
+- **`afk_dev`** — picks the next open issue and implements it
 
 ## Requirements
 
@@ -34,6 +37,22 @@ On subsequent runs (image already built):
 ```bash
 docker compose up
 ```
+
+### Disabling agents (for debugging)
+
+Set either env var to `1` to disable the corresponding agent loop:
+
+| Variable | Default | Effect |
+|---|---|---|
+| `AFK_DISABLE_FIX_PRS` | unset | Set to `1` to skip the `afk_fix_prs` loop |
+| `AFK_DISABLE_DEV` | unset | Set to `1` to skip the `afk_dev` loop |
+
+### Sleep intervals
+
+| Variable | Default | Description |
+|---|---|---|
+| `AFK_RALPH_FIX_PR_SLEEP` | `10` | Seconds between `afk_fix_prs` runs |
+| `AFK_RALPH_DEV_SLEEP` | `10` | Seconds between `afk_dev` runs |
 
 ## Auto-start on WSL
 

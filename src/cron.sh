@@ -1,9 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-while true; do
-  afk_fix_prs \
-    --github_user "$AFK_GITHUB_USER" \
-    --github_repo "$AFK_GITHUB_REPO"
-  sleep "$AFK_RALPH_FIX_PR_SLEEP"
-done
+fix_prs_loop() {
+  while true; do
+    afk_fix_prs \
+      --github_user "$AFK_GITHUB_USER" \
+      --github_repo "$AFK_GITHUB_REPO"
+    sleep "${AFK_RALPH_FIX_PR_SLEEP:-10}"
+  done
+}
+
+dev_loop() {
+  while true; do
+    afk_dev \
+      --github_repo "$AFK_GITHUB_REPO"
+    sleep "${AFK_RALPH_DEV_SLEEP:-10}"
+  done
+}
+
+pids=()
+
+if [[ "${AFK_DISABLE_FIX_PRS:-}" != "1" ]]; then
+  fix_prs_loop &
+  pids+=($!)
+fi
+
+if [[ "${AFK_DISABLE_DEV:-}" != "1" ]]; then
+  dev_loop &
+  pids+=($!)
+fi
+
+wait "${pids[@]}"
