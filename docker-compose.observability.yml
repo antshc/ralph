@@ -70,6 +70,13 @@ services:
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    volumes:
+      - ./.grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./.grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
 volumes:
   logstash-sincedb:
