@@ -13,7 +13,7 @@ services:
       - COPILOT_GITHUB_TOKEN=${COPILOT_GITHUB_TOKEN}
       - COPILOT_MODEL=${COPILOT_MODEL:-claude-sonnet-4.6}
       # - AFK_DRY_RUN=1 # set to 0 to run real copilot
-      - AFK_DEBUG=1
+      # - AFK_LOG_LEVEL=INFO # INFO,DEBUG
       # afk_fix_prs env vars
       # - AFK_FIX_PRS_GITHUB_USER=antshc         # required
       # - AFK_FIX_PRS_GITHUB_REPO=antshc/brain   # required
