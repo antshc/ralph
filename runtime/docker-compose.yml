@@ -1,3 +1,6 @@
+include:
+  - docker-compose.observability.yml
+
 services:
   ralph:
     image: antshc/ralph:latest
@@ -38,10 +41,10 @@ services:
       # Comma-separated ports and/or dash ranges: "8000", "8000,5432", "9200-9300"
     volumes:
       # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
-      - ./logs/mitmproxy:/var/log/mitmproxy
+      - ../logs/mitmproxy:/var/log/mitmproxy
       # Copilot CLI session logs for debugging and audit
-      - ./logs/copilot:/var/log/copilot
-      - ./logs/ralph:/var/log/ralph
+      - ../logs/copilot:/var/log/copilot
+      - ../logs/ralph:/var/log/ralph
       # Project files — the working directory inside the container
       - ~/_projects/brain:/home/ubuntu/workspace
       - ~/_projects/brain.worktrees:/home/ubuntu/workspace.worktrees

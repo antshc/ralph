@@ -21,8 +21,8 @@ services:
       # Pipeline config directory — can start empty
       - ./.logstash/pipeline:/usr/share/logstash/pipeline:ro
       # Host log directories
-      - ./logs/mitmproxy:/var/log/mitmproxy:ro
-      - ./logs/ralph:/var/log/ralph:ro
+      - ../logs/mitmproxy:/var/log/mitmproxy:ro
+      - ../logs/ralph:/var/log/ralph:ro
       # sincedb persistence across container restarts
       - logstash-sincedb:/var/lib/logstash/sincedb
     depends_on:
