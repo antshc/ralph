@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: mitmproxy
+    type: elasticsearch
+    uid: mitmproxy
+    url: http://elasticsearch:9200
+    access: proxy
+    database: "logs-mitmproxy-*"
+    isDefault: false
+    jsonData:
+      esVersion: "70"
+      timeField: "@timestamp"
+      maxConcurrentShardRequests: 5
+      logMessageField: message
+      logLevelField: level
+    editable: false

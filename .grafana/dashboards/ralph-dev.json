@@ -1,0 +1,160 @@
+{
+  "id": null,
+  "uid": "ralph-dev-dashboard",
+  "title": "ralph-dev",
+  "tags": ["ralph", "ralph-dev"],
+  "timezone": "browser",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-24h", "to": "now" },
+  "timepicker": {},
+  "panels": [
+    {
+      "id": 1,
+      "type": "barchart",
+      "title": "Log Level Breakdown",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 0 },
+      "datasource": { "type": "elasticsearch", "uid": "ralph-dev" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "vertical",
+        "xTickLabelRotation": -30,
+        "xTickLabelSpacing": 0,
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "*",
+          "alias": "",
+          "metrics": [
+            { "type": "count", "id": "1" }
+          ],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "level.keyword",
+              "id": "2",
+              "settings": {
+                "size": "10",
+                "order": "desc",
+                "orderBy": "1",
+                "min_doc_count": "1"
+              }
+            }
+          ],
+          "timeField": "@timestamp"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Service Run Timeline",
+      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 0 },
+      "datasource": { "type": "elasticsearch", "uid": "ralph-dev" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 10,
+            "showPoints": "never"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "single" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "*",
+          "alias": "log count",
+          "metrics": [
+            { "type": "count", "id": "1" }
+          ],
+          "bucketAggs": [
+            {
+              "type": "date_histogram",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "trimEdges": "0"
+              }
+            }
+          ],
+          "timeField": "@timestamp"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Error Rate Over Time",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 8 },
+      "datasource": { "type": "elasticsearch", "uid": "ralph-dev" },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 15,
+            "showPoints": "never"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "single" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "level:ERROR",
+          "alias": "errors",
+          "metrics": [
+            { "type": "count", "id": "1" }
+          ],
+          "bucketAggs": [
+            {
+              "type": "date_histogram",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "trimEdges": "0"
+              }
+            }
+          ],
+          "timeField": "@timestamp"
+        }
+      ]
+    }
+  ]
+}
