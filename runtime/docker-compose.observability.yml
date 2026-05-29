@@ -15,6 +15,7 @@ services:
 
   logstash:
     image: logstash:7.17.28
+    user: "0"
     environment:
       - xpack.monitoring.enabled=false
     volumes:
