@@ -2,10 +2,11 @@ from mitmproxy import http
 
 ALLOWED_REPOS = [
     "/antshc/brain",
+    "/github/copilot-cli"
 ]
 
 # api.github.com paths are prefixed with /repos/<org>/<repo>/...
-_API_PREFIXES = ["/repos" + r for r in ALLOWED_REPOS] + ["/user", "/graphql"]
+_API_PREFIXES = ["/repos" + r for r in ALLOWED_REPOS] + ["/user", "/graphql", "/"]
 
 _ALLOWED_GITHUB_PATHS = [
     "/login",
