@@ -5,6 +5,10 @@ on:
     branches: [main, "release/v*"]
   workflow_dispatch:
     inputs:
+      version:
+        description: "Docker image tag (e.g. v1.2.3). Overrides auto-generated tags."
+        type: string
+        required: false
       update_base:
         description: Pull latest antshc/cage base image
         type: boolean
@@ -57,8 +61,9 @@ jobs:
         with:
           images: antshc/ralph
           tags: |
+            type=raw,value=${{ inputs.version }},enable=${{ inputs.version != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=build-${{ github.run_number }},enable=${{ !startsWith(github.ref, 'refs/heads/release/') }}
+            type=raw,value=build-${{ github.run_number }},enable=${{ inputs.version == '' && !startsWith(github.ref, 'refs/heads/release/') }}
             type=match,pattern=release/(v.*),group=1
 
       - name: Build and push
