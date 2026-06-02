@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches: [main, "release/v*"]
   workflow_dispatch:
     inputs:
       update_base:
@@ -59,6 +59,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=build-${{ github.run_number }}
+            type=match,pattern=release/(v.*),group=1
 
       - name: Build and push
         uses: docker/build-push-action@v6
