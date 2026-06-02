@@ -64,7 +64,7 @@ jobs:
             type=raw,value=${{ inputs.version }},enable=${{ inputs.version != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=build-${{ github.run_number }},enable=${{ inputs.version == '' && !startsWith(github.ref, 'refs/heads/release/') }}
-            type=match,pattern=release/(v.*),group=1
+            type=match,pattern=release/(v.*),group=1,event=branch
 
       - name: Build and push
         uses: docker/build-push-action@v6
