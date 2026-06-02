@@ -15,7 +15,14 @@ Runs two automated agents in parallel (from [brain-tools](https://github.com/ant
 Download and extract the latest runtime files:
 
 ```bash
+# Install latest (main)
 curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/install.sh | bash
+
+# Install dev variant
+RALPH_VARIANT=dev curl -fsSL https://raw.githubusercontent.com/antshc/ralph/dev/install.sh | bash
+
+# Install workspace variant
+RALPH_VARIANT=workspace curl -fsSL https://raw.githubusercontent.com/antshc/ralph/workspace/install.sh | bash
 ```
 
 This installs: `Dockerfile`, `docker-compose.yml`, `cron.sh`, `setup.sh`, and `rules/`.
