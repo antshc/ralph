@@ -73,3 +73,21 @@ curl -fsSL https://raw.githubusercontent.com/antshc/ralph/main/disable-wsl-autos
 ```
 
 This lists all registered ralph services with their status and prompts you to enter the one to remove.
+
+## Publishing a release
+
+Docker Hub tags and GitHub Releases are driven by git tags. Push a semver tag to trigger a build:
+
+```bash
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+This produces:
+
+| Git tag | Docker Hub tags | GitHub Release |
+|---------|-----------------|----------------|
+| `v1.2.3` | `antshc/ralph:1.2.3`, `antshc/ralph:1.2`, `antshc/ralph:1` | created automatically |
+| *(push to `main`)* | `antshc/ralph:latest` | — |
+
+To publish a specific tag manually, use **Actions → Release → Run workflow** and fill in the **Version** field (e.g. `v1.2.3`).

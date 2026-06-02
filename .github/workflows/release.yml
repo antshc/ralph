@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [main, "release/v*"]
+    branches: [main]
+    tags: [ "v*.*.*" ]
   workflow_dispatch:
     inputs:
       version:
@@ -33,9 +34,8 @@ jobs:
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: "v0.1.0-${{ github.run_number }}"
-          name: "v0.1.0-${{ github.run_number }}"
           generate_release_notes: true
           files: ralph.tar.gz
 
@@ -62,9 +62,11 @@ jobs:
           images: antshc/ralph
           tags: |
             type=raw,value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=build-${{ github.run_number }},enable=${{ inputs.version == '' && !startsWith(github.ref, 'refs/heads/release/') }}
-            type=match,pattern=release/(v.*),group=1,event=branch
+            type=sha
 
       - name: Build and push
         uses: docker/build-push-action@v6
