@@ -1,4 +1,4 @@
-FROM antshc/cage:dev
+FROM antshc/cage:latest
 
 # # Install brain-tools from GitHub source at build time.
 # # cage runtime proxy variables are configured in entrypoint.sh,
