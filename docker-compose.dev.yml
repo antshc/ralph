@@ -8,6 +8,8 @@ services:
       - AFK_REPO_DIR=/home/ubuntu/workspace
       - AFK_GITHUB_USER=${GITHUB_USER:-antshc}
       - AFK_GITHUB_REPO=${GITHUB_REPO:-antshc/brain}
+      - AFK_ADDRESS_PRS_GITHUB_USER=${GITHUB_USER:-antshc}
+      - AFK_ADDRESS_PRS_GITHUB_REPO=${GITHUB_REPO:-antshc/brain}
     volumes:
       # Proxy traffic logs written by mitmproxy (one file per session, timestamped)
       - ./logs/mitmproxy:/var/log/mitmproxy

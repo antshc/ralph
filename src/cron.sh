@@ -10,6 +10,15 @@ fix_prs_loop() {
   done
 }
 
+address_prs_loop() {
+  while true; do
+    afk_address_prs \
+      --github_user "$AFK_ADDRESS_PRS_GITHUB_USER" \
+      --github_repo "$AFK_ADDRESS_PRS_GITHUB_REPO"
+    sleep "${AFK_ADDRESS_PRS_SLEEP:-10}"
+  done
+}
+
 dev_loop() {
   while true; do
     afk_dev \
@@ -22,6 +31,11 @@ pids=()
 
 if [[ "${AFK_DISABLE_FIX_PRS:-}" != "1" ]]; then
   fix_prs_loop &
+  pids+=($!)
+fi
+
+if [[ "${AFK_DISABLE_ADDRESS_PRS:-}" != "1" ]]; then
+  address_prs_loop &
   pids+=($!)
 fi
 

@@ -22,6 +22,11 @@ services:
       # - AFK_FIX_PRS_GITHUB_REPO=antshc/brain   # required
       # - AFK_FIX_PR_SLEEP=${AFK_FIX_PR_SLEEP:-10}
       # - AFK_DISABLE_FIX_PRS=1   # set to 1 to disable afk_fix_prs loop (debug)
+      # afk_address_prs env vars
+      # - AFK_ADDRESS_PRS_GITHUB_USER=antshc       # required
+      # - AFK_ADDRESS_PRS_GITHUB_REPO=antshc/brain # required
+      # - AFK_ADDRESS_PRS_SLEEP=${AFK_ADDRESS_PRS_SLEEP:-10}
+      # - AFK_DISABLE_ADDRESS_PRS=1 # set to 1 to disable afk_address_prs loop (debug)
       # afk_dev env vars
       # - AFK_DEV_GITHUB_REPO=antshc/brain        # required
       # - AFK_DISABLE_DEV=1       # set to 1 to disable afk_dev loop (debug)
