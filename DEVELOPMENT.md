@@ -28,3 +28,13 @@ export AFK_DRY_RUN=0 && export AFK_DEBUG=1
 afk_fix_prs --repo_dir /home/ubuntu/workspace --github_user antshc --github_repo antshc/brain
 
 ```
+
+## Secret scanning (gitleaks)
+
+A `pre-push` hook in `.githooks/` scans outgoing commits with [gitleaks](https://github.com/gitleaks/gitleaks) and aborts the push on findings. Enable it once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+CI also runs `.github/workflows/gitleaks.yml` on every push and PR. Scan manually with `gitleaks git . --redact`.
